@@ -1,7 +1,10 @@
 # Nightreign Overlay — CREDITS
 
-> If you see anything missing or incorrectly attributed, please open an issue and I’ll correct it.
+> If you see anything missing or incorrectly attributed, please inform the original author of this project: https://github.com/shahf215
 
+This fork of the original project was created to get rid of the hotkeys for the map.
+All credit goes to shahf215.
+Github link to the original repo: https://github.com/shahf215/Nightreign-Overlay
 ---
 
 ### A. POI coordinate dataset (derived from Nightreign Router)
