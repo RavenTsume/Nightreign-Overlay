@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "intervalMs": 500,
+  "captureWidth": 960,
+  "openThreshold": 0.85,
+  "closeThreshold": 0.7,
+  "openFrames": 2,
+  "closeFrames": 3,
+  "gameProcess": "nightreign.exe"
+}

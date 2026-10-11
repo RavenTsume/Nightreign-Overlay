@@ -8,6 +8,10 @@
   "main": "app/main/main.js",
   "scripts": {
     "start": "electron .",
+    "test:signature": "node tests/mapSignature.test.js",
+    "test:watcher": "node tests/mapWatcher.test.js",
+    "test:game": "node tests/gameProcess.test.js",
+    "test": "node tests/mapSignature.test.js && node tests/mapWatcher.test.js && node tests/gameProcess.test.js",
     "dist:win": "electron-builder --win portable",
     "dist:dir": "electron-builder --win zip"
   },

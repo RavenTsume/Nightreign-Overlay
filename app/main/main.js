@@ -1,6 +1,7 @@
 ﻿const { app, BrowserWindow, globalShortcut, screen, ipcMain } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const MapWatcher = require('./mapWatcher');
 
 function shouldLogDev() {
   return process.env.NODE_ENV !== 'production';
@@ -24,6 +25,7 @@ let clickThrough = true;
 let cachedHotkeys = null;
 let shortcutsSuspended = false;
 let currentLocale = 'en';
+let mapWatcher = null;
 
 function sanitizeAccelerator(acc, fallback) {
   if (!acc || typeof acc !== 'string') return fallback;
@@ -185,6 +187,9 @@ function createOverlay(display) {
   overlayWin.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   overlayWin.setAlwaysOnTop(true, 'screen-saver');
   overlayWin.setIgnoreMouseEvents(clickThrough, { forward: true });
+  // Keep the overlay out of screen captures so our own labels never disturb the
+  // map detector (it takes screenshots to see whether the map is open).
+  overlayWin.setContentProtection(true);
 
   overlayWin.loadFile(path.join(__dirname, '..', '..', 'public', 'overlay', 'index.html'));
 
@@ -321,12 +326,43 @@ function registerShortcuts() {
   });
 }
 
+function showOverlay() {
+  if (!overlayWin || overlayWin.isDestroyed()) return;
+  if (!overlayWin.isVisible()) overlayWin.showInactive();
+  overlayWin.setAlwaysOnTop(true, 'screen-saver');
+}
+
+function hideOverlay() {
+  if (overlayWin && !overlayWin.isDestroyed() && overlayWin.isVisible()) overlayWin.hide();
+}
+
+// With auto-detection active the overlay follows the in-game map (hidden until it opens).
+function applyAutoOverlayState() {
+  if (!mapWatcher || !mapWatcher.active) return;
+  if (mapWatcher.isOpen) showOverlay();
+  else hideOverlay();
+}
+
+function startMapWatcher() {
+  mapWatcher = new MapWatcher({ configDir: path.join(__dirname, '..', '..', 'config') });
+  mapWatcher.on('open', () => {
+    if (mapWatcher.active) showOverlay();
+  });
+  mapWatcher.on('close', () => {
+    if (mapWatcher.active) hideOverlay();
+  });
+  mapWatcher.on('status', state => send(seedWin, 'autodetect:status', state));
+  mapWatcher.start();
+  applyAutoOverlayState();
+}
+
 function reattachToPrimary() {
   const d = screen.getPrimaryDisplay();
   if (overlayWin && !overlayWin.isDestroyed()) {
     overlayWin.destroy();
   }
   createOverlay(d);
+  applyAutoOverlayState();
 }
 
 ipcMain.on('overlay:toggle-overlay', () => {
@@ -383,6 +419,31 @@ ipcMain.on('locale:changed', (_e, code) => {
   }
 });
 
+ipcMain.handle('autodetect:get', () => (mapWatcher ? mapWatcher.getState() : null));
+
+ipcMain.handle('autodetect:set', (_e, patch) => {
+  if (!mapWatcher) return null;
+  const state = mapWatcher.updateConfig(patch || {});
+  applyAutoOverlayState();
+  return state;
+});
+
+ipcMain.handle('autodetect:clear', () => (mapWatcher ? mapWatcher.clearRefs() : null));
+
+// Remember what the open map looks like. The finder window steps aside so it can't
+// cover the map while the screenshot is taken.
+ipcMain.handle('autodetect:calibrate', async (_e, opts) => {
+  if (!mapWatcher) return { ok: false, error: 'unavailable' };
+  const delayMs = Math.min(15000, Math.max(0, Number(opts && opts.delayMs) || 5000));
+  const finderWasVisible = seedWin && !seedWin.isDestroyed() && seedWin.isVisible();
+  if (finderWasVisible) seedWin.minimize();
+  try {
+    return await mapWatcher.calibrate({ delayMs });
+  } finally {
+    if (finderWasVisible && seedWin && !seedWin.isDestroyed()) seedWin.restore();
+  }
+});
+
 ipcMain.handle('hotkeys:request', () => {
   return cachedHotkeys || loadHotkeys();
 });
@@ -400,6 +461,7 @@ async function bootstrap() {
   createOverlay(display);
   createFinder();
   registerShortcuts();
+  startMapWatcher();
 
   screen.on('display-added', reattachToPrimary);
   screen.on('display-removed', reattachToPrimary);
@@ -409,4 +471,7 @@ async function bootstrap() {
 bootstrap();
 
 app.on('window-all-closed', () => app.quit());
-app.on('will-quit', () => globalShortcut.unregisterAll());
+app.on('will-quit', () => {
+  if (mapWatcher) mapWatcher.stop();
+  globalShortcut.unregisterAll();
+});

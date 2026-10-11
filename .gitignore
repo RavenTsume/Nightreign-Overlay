@@ -2,3 +2,5 @@ node_modules/
 dist/
 out/
 .DS_Store
+# per-user map detection calibration
+config/map-refs.json

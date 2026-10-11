@@ -35,6 +35,17 @@ contextBridge.exposeInMainWorld('app', {
     request: () => ipcRenderer.invoke('hotkeys:request'),
     suspend: flag => ipcRenderer.send('hotkeys:suspend', flag),
   },
+  autodetect: {
+    get: () => ipcRenderer.invoke('autodetect:get'),
+    set: patch => ipcRenderer.invoke('autodetect:set', patch),
+    clear: () => ipcRenderer.invoke('autodetect:clear'),
+    calibrate: opts => ipcRenderer.invoke('autodetect:calibrate', opts),
+    onStatus: handler => {
+      const listener = (_event, state) => handler?.(state);
+      ipcRenderer.on('autodetect:status', listener);
+      return () => ipcRenderer.removeListener('autodetect:status', listener);
+    },
+  },
   finder: {
     onRequestActiveSeed: handler => {
       const listener = () => handler?.();
