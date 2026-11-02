@@ -1,6 +1,7 @@
 # Nightreign Overlay — Seed Finder + In‑Game Overlay
 
 An Electron-based **seed finder** and **overlay** for *Elden Ring Nightreign*. It lets you quickly narrow seeds/patterns and renders labels on top of the game’s map.
+Forked from shahf215/Nightreign-Overlay
 
 ---
 
