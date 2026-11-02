@@ -1,7 +1,10 @@
-﻿const { app, BrowserWindow, globalShortcut, screen, ipcMain } = require('electron');
+﻿const { app, BrowserWindow, globalShortcut, screen, ipcMain, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const MapWatcher = require('./mapWatcher');
+const AutoScan = require('./autoScan');
+const { chooseFinderPlacement, samePlacement } = require('../../src/core/finderPlacement');
+const policy = require('../../src/core/overlayPolicy');
 
 function shouldLogDev() {
   return process.env.NODE_ENV !== 'production';
@@ -26,6 +29,10 @@ let cachedHotkeys = null;
 let shortcutsSuspended = false;
 let currentLocale = 'en';
 let mapWatcher = null;
+let autoScan = null;
+let scanDebugRoot = null;
+let finderPlacement = null; // {mode:'normal'} or {mode:'borderless', displayId, bounds}
+let lastScanResult = null; // last successful scan, re-applied if the finder window has to be rebuilt
 
 function sanitizeAccelerator(acc, fallback) {
   if (!acc || typeof acc !== 'string') return fallback;
@@ -186,7 +193,9 @@ function createOverlay(display) {
 
   overlayWin.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   overlayWin.setAlwaysOnTop(true, 'screen-saver');
-  overlayWin.setIgnoreMouseEvents(clickThrough, { forward: true });
+  // No { forward: true }: on Windows that installs a system-wide mouse hook, which makes the cursor stutter
+  // whenever this app is busy. The overlay never needs mouse events (it is purely click-through).
+  overlayWin.setIgnoreMouseEvents(clickThrough);
   // Keep the overlay out of screen captures so our own labels never disturb the
   // map detector (it takes screenshots to see whether the map is open).
   overlayWin.setContentProtection(true);
@@ -227,10 +236,20 @@ function createOverlay(display) {
   });
 }
 
-function createFinder() {
-  seedWin = new BrowserWindow({
-    width: 1080,
-    height: 870,
+function currentFinderPlacement() {
+  return chooseFinderPlacement(screen.getAllDisplays(), screen.getPrimaryDisplay().id);
+}
+
+// One monitor: a normal window. Two or more: a borderless window covering the second monitor, so the game keeps
+// the primary one and the finder becomes a big second screen.
+function createFinder({ show = true } = {}) {
+  const placement = currentFinderPlacement();
+  const borderless = placement.mode === 'borderless';
+  const win = new BrowserWindow({
+    ...(borderless
+      ? { ...placement.bounds, frame: false, resizable: false, movable: false, maximizable: false, fullscreenable: false, hasShadow: false }
+      : { width: 1080, height: 870 }),
+    show,
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -240,15 +259,43 @@ function createFinder() {
       backgroundThrottling: false,
     },
   });
+  seedWin = win;
+  finderPlacement = placement;
+  if (borderless) win.setBounds(placement.bounds); // (re-applied so mixed-DPI monitors get the exact size)
 
-  seedWin.loadFile(path.join(__dirname, '..', '..', 'public', 'finder', 'index.html'));
+  win.loadFile(path.join(__dirname, '..', '..', 'public', 'finder', 'index.html'));
 
-  seedWin.on('closed', () => {
+  win.on('closed', () => {
+    if (seedWin !== win) return; // an old window that was replaced on purpose
     seedWin = null;
     if (overlayWin && !overlayWin.isDestroyed()) overlayWin.close();
     overlayWin = null;
     app.quit();
   });
+  return win;
+}
+
+// A framed window cannot become frameless (or back) without being recreated, so a monitor being plugged in or out
+// rebuilds the finder. The last successful scan is shown again so the map does not disappear.
+function rebuildFinder() {
+  const old = seedWin;
+  const wasVisible = !old || old.isDestroyed() || old.isVisible();
+  const win = createFinder({ show: wasVisible });
+  if (old && !old.isDestroyed()) old.destroy();
+  if (lastScanResult) win.webContents.once('did-finish-load', () => send(win, 'autoscan:result', lastScanResult));
+}
+
+function syncFinderToDisplays() {
+  if (!seedWin || seedWin.isDestroyed()) return;
+  const next = currentFinderPlacement();
+  if (samePlacement(next, finderPlacement)) return;
+  if (next.mode === 'borderless' && finderPlacement && finderPlacement.mode === 'borderless') {
+    finderPlacement = next; // same kind of window, other monitor or size: just move it
+    seedWin.setBounds(next.bounds);
+    setTimeout(() => seedWin && !seedWin.isDestroyed() && seedWin.setBounds(next.bounds), 120);
+    return;
+  }
+  rebuildFinder();
 }
 
 function send(win, ch, payload) {
@@ -336,24 +383,48 @@ function hideOverlay() {
   if (overlayWin && !overlayWin.isDestroyed() && overlayWin.isVisible()) overlayWin.hide();
 }
 
-// With auto-detection active the overlay follows the in-game map (hidden until it opens).
+function applyOverlayAction(action) {
+  if (action === 'show') showOverlay();
+  else if (action === 'hide') hideOverlay();
+}
+
+const autoOverlayEnabled = () => !mapWatcher || mapWatcher.cfg.enabled;
+const mapLookLearned = () => !!mapWatcher && mapWatcher.refs.length > 0;
+
+// The overlay follows the in-game map (hidden until it opens), unless the automatic overlay is switched off in the
+// overlay options. See src/core/overlayPolicy.js.
 function applyAutoOverlayState() {
-  if (!mapWatcher || !mapWatcher.active) return;
-  if (mapWatcher.isOpen) showOverlay();
-  else hideOverlay();
+  if (!mapWatcher) return;
+  applyOverlayAction(policy.autoOverlayAction({ enabled: autoOverlayEnabled(), active: mapLookLearned(), open: mapWatcher.isOpen }));
 }
 
 function startMapWatcher() {
   mapWatcher = new MapWatcher({ configDir: path.join(__dirname, '..', '..', 'config') });
-  mapWatcher.on('open', () => {
-    if (mapWatcher.active) showOverlay();
-  });
-  mapWatcher.on('close', () => {
-    if (mapWatcher.active) hideOverlay();
-  });
+  mapWatcher.on('open', () => applyOverlayAction(policy.watcherEventAction('open', { enabled: autoOverlayEnabled(), active: mapLookLearned() })));
+  mapWatcher.on('close', () => applyOverlayAction(policy.watcherEventAction('close', { enabled: autoOverlayEnabled(), active: mapLookLearned() })));
   mapWatcher.on('status', state => send(seedWin, 'autodetect:status', state));
   mapWatcher.start();
   applyAutoOverlayState();
+  startAutoScan();
+}
+
+// The Scan button: switch to the game, wait for the map, read it, find the seed.
+function startAutoScan() {
+  scanDebugRoot = path.join(app.getPath('userData'), 'scan-debug');
+  autoScan = new AutoScan({
+    rootDir: path.join(__dirname, '..', '..'),
+    watcher: mapWatcher,
+    gameProcess: mapWatcher.cfg.gameProcess || 'nightreign.exe',
+    config: { mapKeys: mapWatcher.cfg.openKeys && mapWatcher.cfg.openKeys.length ? mapWatcher.cfg.openKeys : ['M'] },
+    debugRoot: scanDebugRoot,
+  });
+  autoScan.on('status', s => send(seedWin, 'autoscan:status', s));
+  autoScan.on('result', r => {
+    if (r.ok) lastScanResult = r;
+    // the map is open right now: show the labels on top of it (unless the automatic overlay is switched off)
+    applyOverlayAction(policy.scanResultAction({ enabled: autoOverlayEnabled(), ok: r.ok }));
+    send(seedWin, 'autoscan:result', r);
+  });
 }
 
 function reattachToPrimary() {
@@ -363,6 +434,7 @@ function reattachToPrimary() {
   }
   createOverlay(d);
   applyAutoOverlayState();
+  syncFinderToDisplays();
 }
 
 ipcMain.on('overlay:toggle-overlay', () => {
@@ -430,18 +502,44 @@ ipcMain.handle('autodetect:set', (_e, patch) => {
 
 ipcMain.handle('autodetect:clear', () => (mapWatcher ? mapWatcher.clearRefs() : null));
 
-// Remember what the open map looks like. The finder window steps aside so it can't
-// cover the map while the screenshot is taken.
+// Plain "remember what the open map looks like" (the Scan button does this automatically).
+// The finder window stays where it is.
 ipcMain.handle('autodetect:calibrate', async (_e, opts) => {
   if (!mapWatcher) return { ok: false, error: 'unavailable' };
   const delayMs = Math.min(15000, Math.max(0, Number(opts && opts.delayMs) || 5000));
-  const finderWasVisible = seedWin && !seedWin.isDestroyed() && seedWin.isVisible();
-  if (finderWasVisible) seedWin.minimize();
-  try {
-    return await mapWatcher.calibrate({ delayMs });
-  } finally {
-    if (finderWasVisible && seedWin && !seedWin.isDestroyed()) seedWin.restore();
-  }
+  return mapWatcher.calibrate({ delayMs });
+});
+
+ipcMain.handle('autoscan:start', () => {
+  if (!autoScan) return { ok: false, reason: 'unavailable' };
+  if (autoScan.running) return { ok: false, reason: 'busy' };
+  autoScan.start(); // runs in the background; progress arrives as 'autoscan:status' / 'autoscan:result'
+  return { ok: true };
+});
+// "Forget map": stop a running scan and drop the remembered result (the finder resets itself and the overlay).
+ipcMain.handle('autoscan:forget', () => {
+  lastScanResult = null;
+  if (autoScan) autoScan.cancel();
+  return true;
+});
+
+// Window controls for the borderless finder (it has no title bar).
+ipcMain.handle('finder:window-info', () => ({ borderless: !!finderPlacement && finderPlacement.mode === 'borderless' }));
+ipcMain.on('finder:minimize', () => {
+  if (seedWin && !seedWin.isDestroyed()) seedWin.minimize();
+});
+ipcMain.on('finder:close', () => {
+  if (seedWin && !seedWin.isDestroyed()) seedWin.close(); // closing the finder quits the app, as before
+});
+
+ipcMain.handle('autoscan:cancel', () => {
+  if (autoScan) autoScan.cancel();
+  return true;
+});
+ipcMain.handle('autoscan:open-debug', async () => {
+  if (!scanDebugRoot) return false;
+  fs.mkdirSync(scanDebugRoot, { recursive: true });
+  return (await shell.openPath(scanDebugRoot)) === '';
 });
 
 ipcMain.handle('hotkeys:request', () => {
@@ -472,6 +570,7 @@ bootstrap();
 
 app.on('window-all-closed', () => app.quit());
 app.on('will-quit', () => {
+  if (autoScan) autoScan.cancel();
   if (mapWatcher) mapWatcher.stop();
   globalShortcut.unregisterAll();
 });

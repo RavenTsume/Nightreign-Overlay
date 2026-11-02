@@ -35,6 +35,27 @@ contextBridge.exposeInMainWorld('app', {
     request: () => ipcRenderer.invoke('hotkeys:request'),
     suspend: flag => ipcRenderer.send('hotkeys:suspend', flag),
   },
+  finderWindow: {
+    info: () => ipcRenderer.invoke('finder:window-info'),
+    minimize: () => ipcRenderer.send('finder:minimize'),
+    close: () => ipcRenderer.send('finder:close'),
+  },
+  autoscan: {
+    start: () => ipcRenderer.invoke('autoscan:start'),
+    cancel: () => ipcRenderer.invoke('autoscan:cancel'),
+    forget: () => ipcRenderer.invoke('autoscan:forget'),
+    openDebugFolder: () => ipcRenderer.invoke('autoscan:open-debug'),
+    onStatus: handler => {
+      const listener = (_event, state) => handler?.(state);
+      ipcRenderer.on('autoscan:status', listener);
+      return () => ipcRenderer.removeListener('autoscan:status', listener);
+    },
+    onResult: handler => {
+      const listener = (_event, result) => handler?.(result);
+      ipcRenderer.on('autoscan:result', listener);
+      return () => ipcRenderer.removeListener('autoscan:result', listener);
+    },
+  },
   autodetect: {
     get: () => ipcRenderer.invoke('autodetect:get'),
     set: patch => ipcRenderer.invoke('autodetect:set', patch),

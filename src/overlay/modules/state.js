@@ -6,6 +6,7 @@
     labelPad: 12,
     labelH: 16,
     bgAlpha: 0.5,
+    marker: true, // draw a small circle on the exact POI position, label sits just above it
   });
 
   const STYLE_DEFINITIONS = [

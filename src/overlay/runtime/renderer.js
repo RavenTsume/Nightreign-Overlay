@@ -6,7 +6,32 @@
     ctx.clearRect(0, 0, width, height);
   }
 
-  function drawLabel(ctx, x, y, text, styleKey, ui, { getStyleColor, wrapLabelText }) {
+  // Small ring-and-dot marker radius, scaled with the label font.
+  function markerRadius(ui) {
+    return Math.max(3, Math.round(ui.fontPx * 0.3));
+  }
+
+  // The exact POI position: dark outline, coloured ring, dark centre dot (readable on any terrain).
+  function drawMarker(ctx, x, y, styleKey, ui, { getStyleColor }) {
+    if (!ctx || !ui) return;
+    const r = markerRadius(ui);
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(x, y, r + 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = typeof getStyleColor === 'function' ? getStyleColor(styleKey) : '#ffffff';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x, y, Math.max(1, r * 0.35), 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawLabel(ctx, x, y, text, styleKey, ui, { getStyleColor, wrapLabelText, marker = false }) {
     if (!ctx || !ui) return;
     const lines = wrapLabelText ? wrapLabelText(text, 26) : [text];
 
@@ -25,7 +50,9 @@
     const padY = Math.max(2, Math.round(ui.labelPad * 0.1));
     const totalTextHeight = ui.labelH * lines.length;
 
-    ctx.translate(x + ui.offsetX, y + ui.offsetY);
+    // With a marker on the POI, lift the label so its bottom edge sits just above the marker.
+    const lift = marker ? (totalTextHeight + padY * 2) / 2 + markerRadius(ui) + 3 : 0;
+    ctx.translate(x + ui.offsetX, y + ui.offsetY - lift);
     ctx.fillStyle = `rgba(0, 0, 0, ${ui.bgAlpha})`;
     ctx.fillRect(
       -maxWidth / 2 - padX,
@@ -60,6 +87,7 @@
       getStyleColor,
       wrapLabelText,
       globalScale = 1,
+      marker = true,
     } = dependencies || {};
 
     if (!panelRect || typeof uvToScreen !== 'function' || typeof getPoiRecord !== 'function') {
@@ -75,6 +103,7 @@
     }
     ctx.translate(-centerX, -centerY);
 
+    const placed = [];
     for (const descriptor of descriptors) {
       if (!descriptor) continue;
       const { poiId, text, styleKey } = descriptor;
@@ -85,8 +114,11 @@
       if (!record || !Array.isArray(record.uv) || record.uv.length < 2) continue;
       const [u, v] = record.uv;
       const { x, y } = uvToScreen(panelRect, u, v);
-      drawLabel(ctx, x, y, text, styleKey, ui, { getStyleColor, wrapLabelText });
+      drawLabel(ctx, x, y, text, styleKey, ui, { getStyleColor, wrapLabelText, marker });
+      placed.push({ x, y, styleKey });
     }
+    // Markers last, so a neighbouring label can never hide the exact spot.
+    if (marker) for (const p of placed) drawMarker(ctx, p.x, p.y, p.styleKey, ui, { getStyleColor });
 
     ctx.restore();
   }
@@ -94,6 +126,8 @@
   runtime.renderer = {
     clearCanvas,
     renderDescriptors,
+    drawMarker,
+    markerRadius,
   };
 
   if (typeof module !== 'undefined' && module.exports) {

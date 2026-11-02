@@ -51,50 +51,17 @@
       state.setSlotElements(elementMap);
     }
 
+    // The map and Nightlord are detected by the scanner, so there is nothing to pick here any more.
+    // Until the first scan the map area just shows a hint.
     function showShiftingEarthThumbs() {
       if (!dom.thumbs) return;
-      dom.thumbs.classList.add('map-thumbs');
+      dom.thumbs.classList.remove('map-thumbs');
       dom.thumbs.innerHTML = '';
-      dom.thumbs.style.display = 'flex';
-
-      const order = state.current.mapThumbOrder || [];
-      if (!Array.isArray(order) || order.length === 0) return;
-
-      const perRow = 3;
-      for (let i = 0; i < order.length; i += perRow) {
-        const row = document.createElement('div');
-        row.classList.add('map-thumb-row');
-        order.slice(i, i + perRow).forEach(type => {
-          const card = document.createElement('div');
-          card.classList.add('map-thumb');
-          card.dataset.mapType = type;
-          card.setAttribute('role', 'button');
-          card.tabIndex = 0;
-
-          const img = document.createElement('img');
-          img.classList.add('map-thumb__image');
-          img.src = state.current.mapBackgroundByType[type] || '';
-          img.alt = type;
-          img.loading = 'lazy';
-
-          const label = document.createElement('div');
-          label.classList.add('map-thumb__label');
-          label.textContent = window.SeedfinderI18N?.shiftingEarthLabel?.(type) || type;
-
-          const emitSelect = () => handlers.onSelectMap(type);
-          card.addEventListener('click', emitSelect);
-          card.addEventListener('keydown', event => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              emitSelect();
-            }
-          });
-
-          card.append(img, label);
-          row.appendChild(card);
-        });
-        dom.thumbs.appendChild(row);
-      }
+      dom.thumbs.style.display = 'block';
+      const hint = document.createElement('div');
+      hint.className = 'scan-hint';
+      hint.textContent = 'Press “Scan map” on the left, then open the map in Nightreign (M).';
+      dom.thumbs.appendChild(hint);
     }
 
     function hideShiftingEarthThumbs() {

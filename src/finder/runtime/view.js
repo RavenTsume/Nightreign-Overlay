@@ -7,6 +7,14 @@
     }
 
     const mapView = runtime.createMapView({ state, data, dom });
+    // POIs drawn on the finder map follow whatever is sent to / cleared from the overlay.
+    const poi = () => {
+      try {
+        return runtime.poiViewInstance;
+      } catch (error) {
+        return null;
+      }
+    };
 
     function setOptionHandlers(handlers) {
       mapView.setHandlers(handlers);
@@ -83,7 +91,7 @@
       const { selectionBySlot, activeMapType, candidateSeeds, texts } = state.current;
       if (!dom.statusEl) return;
       if (!activeMapType) {
-        dom.statusEl.textContent = texts.ui?.pickMap || 'Pick a map.';
+        dom.statusEl.textContent = 'Press “Scan map”, then open the in-game map.';
         return;
       }
       const parts = [];
@@ -119,6 +127,7 @@
     }
 
     function resetActiveMap() {
+      if (poi()) poi().clear();
       state.setActiveMapType(null);
       state.clearSelections();
       highlightMapButton(null);
@@ -130,6 +139,7 @@
 
     function recalcMapLayout() {
       mapView.recalcMapLayout();
+      if (poi()) poi().layout();
     }
 
     function showSingleSeedOverlay() {
@@ -140,6 +150,7 @@
         seed_id: seed.seed_id,
         seed,
       };
+      if (poi()) poi().show(payload);
       try {
         window.app?.seed?.sendSelected?.(payload);
       } catch (error) {
@@ -149,6 +160,7 @@
 
     function clearOverlayIfNeeded(previousSeed) {
       if (previousSeed && state.current.candidateSeeds.length !== 1) {
+        if (poi()) poi().clear();
         try {
           window.app?.overlay?.reset?.();
         } catch (error) {

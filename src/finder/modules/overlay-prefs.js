@@ -33,6 +33,7 @@
       overlay_offsetX: '0',
       overlay_offsetY: '0',
       overlay_scale: '1',
+      finder_showPois: 'true',
     };
 
     const mapping = {
@@ -66,6 +67,7 @@
       optOffsetX: 'overlay_offsetX',
       optOffsetY: 'overlay_offsetY',
       optScale: 'overlay_scale',
+      optFinderPois: 'finder_showPois',
     };
 
     const getPref = key => {
@@ -90,6 +92,7 @@
           newValue = el.value;
         }
         localStorage.setItem(key, newValue);
+        window.dispatchEvent(new Event('overlay-prefs-changed')); // the finder map's POIs redraw
       });
     });
   }

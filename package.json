@@ -11,7 +11,7 @@
     "test:signature": "node tests/mapSignature.test.js",
     "test:watcher": "node tests/mapWatcher.test.js",
     "test:game": "node tests/gameProcess.test.js",
-    "test": "node tests/mapSignature.test.js && node tests/mapWatcher.test.js && node tests/gameProcess.test.js",
+    "test": "node tests/mapSignature.test.js && node tests/mapWatcher.test.js && node tests/gameProcess.test.js && node tests/scanGate.test.js && node tests/keyState.test.js && node tests/seedMatch.test.js && node tests/mapScan.test.js && node tests/autoScan.test.js && node tests/finderApply.test.js && node tests/overlayRenderer.test.js && node tests/png.test.js && node tests/finderPlacement.test.js && node tests/poiView.test.js && node tests/viewHooks.test.js && node tests/scanPanel.test.js && node tests/finderLoad.test.js && node tests/scan.e2e.test.js",
     "dist:win": "electron-builder --win portable",
     "dist:dir": "electron-builder --win zip"
   },
@@ -29,7 +29,11 @@
     "asar": true,
     "asarUnpack": [
       "config/**",
-      "public/assets/data/**"
+      "public/assets/data/**",
+      "app/main/scanWorker.js",
+      "src/core/mapScan.js",
+      "src/core/seedMatch.js",
+      "src/core/png.js"
     ],
     "files": [
       "app/**",
@@ -68,5 +72,8 @@
   "dependencies": {
     "glob": "^9.3.5",
     "rimraf": "^4.4.1"
+  },
+  "optionalDependencies": {
+    "koffi": "^2.9.0"
   }
 }

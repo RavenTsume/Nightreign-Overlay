@@ -165,6 +165,7 @@
         getStyleColor,
         wrapLabelText,
         globalScale: overlayPrefsState.scale || 1,
+        marker: labelBaseStyle.marker !== false,
       });
     }
 

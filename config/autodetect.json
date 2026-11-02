@@ -1,10 +1,24 @@
 {
   "enabled": true,
   "intervalMs": 500,
-  "captureWidth": 960,
+  "captureWidth": 640,
   "openThreshold": 0.85,
   "closeThreshold": 0.7,
   "openFrames": 2,
-  "closeFrames": 3,
-  "gameProcess": "nightreign.exe"
+  "closeFrames": 2,
+  "closeFramesAfterKey": 1,
+  "gameProcess": "nightreign.exe",
+  "trigger": "keys",
+  "openKeys": [
+    "M"
+  ],
+  "closeKeys": [
+    "M",
+    "Escape",
+    "RightMouse"
+  ],
+  "burstMs": 2500,
+  "closeBurstMs": 1500,
+  "openPollMs": 5000,
+  "keyPollMs": 40
 }

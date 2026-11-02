@@ -307,13 +307,10 @@
           </div>
         </div>
 
-        <div class="section-spacing"><b id="chooseMapText">Choose Map</b></div>
-        <div class="btns" id="mapBtns"></div>
-
         <hr class="panel-divider" />
 
         <div class="section-spacing"><b id="statusLabel">Status</b></div>
-        <div id="status" class="hint">Pick a map to begin.</div>
+        <div id="status" class="hint">Press “Scan map”, then open the in-game map. The map and Nightlord are detected automatically.</div>
 
         <div class="section-spacing">
           <b id="candidatesLabel">Candidates</b> <span id="count"></span>
@@ -327,6 +324,16 @@
 
         <div class="section-spacing section-spacing--lg"><b>Overlay Options</b></div>
         <div id="overlayOptions">
+          <label class="toggle"
+            ><input type="checkbox" id="autodetect-enabled" /> Show the POI overlay over the game map
+            automatically</label
+          >
+          <div class="hint option-hint">
+            When off, the overlay never opens by itself (the overlay hotkey still shows it).
+          </div>
+          <label class="toggle"
+            ><input type="checkbox" id="optFinderPois" /> Show the POIs on this finder map</label
+          >
           <details class="accordion" id="overlayVisibility">
             <summary>POI Settings</summary>
             <div class="accordion__body options-grid">
@@ -457,6 +464,15 @@
     <script src="../../src/finder/runtime/selection.js"></script>
     <script src="../../src/finder/runtime/hotkeys.js"></script>
     <script src="../../src/finder/runtime/events.js"></script>
+    <!-- the overlay's own modules, so the finder map can draw the same POIs -->
+    <script src="../../src/overlay/i18n/domain-wire.js"></script>
+    <script src="../../src/overlay/modules/state.js"></script>
+    <script src="../../src/overlay/modules/data.js"></script>
+    <script src="../../src/overlay/runtime/seed-display.js"></script>
+    <script src="../../src/overlay/runtime/ui-state.js"></script>
+    <script src="../../src/overlay/runtime/renderer.js"></script>
+    <script src="../../src/finder/runtime/poi-view.js"></script>
+    <script src="../../src/finder/runtime/window-controls.js"></script>
     <script src="../../src/finder/runtime/index.js"></script>
     <script src="../../src/finder/runtime/autodetect.js"></script>
     <script>

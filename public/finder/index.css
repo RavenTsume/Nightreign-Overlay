@@ -488,3 +488,44 @@ button.control-btn:active,
   align-items: center;
   gap: 8px;
 }
+
+/* Hint shown in the map area before the first scan */
+.scan-hint {
+  padding: 48px 24px;
+  text-align: center;
+  color: #9a9a9a;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* The POI layer sits on top of the finder map; clicks pass through to the slot icons below */
+#poiLayer {
+  z-index: 5;
+}
+
+.option-hint {
+  margin: 0 0 8px 24px;
+  font-size: 12px;
+}
+
+/* Minimise / close for the borderless finder window (second monitor) */
+.window-controls {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 50;
+  display: flex;
+  gap: 6px;
+}
+.window-controls button {
+  width: 34px;
+  height: 28px;
+  border: 1px solid var(--btn-border, #374151);
+  border-radius: 6px;
+  background: rgba(17, 24, 39, 0.85);
+  color: var(--text-color, #e5e7eb);
+  cursor: pointer;
+}
+.window-controls button:hover {
+  background: rgba(55, 65, 81, 0.95);
+}

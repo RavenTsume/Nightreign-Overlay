@@ -142,6 +142,11 @@
         open = false;
         streak = 0;
       },
+      /** Tell the detector the map is known to be open (or closed), e.g. right after a successful scan. */
+      setOpen(value) {
+        open = !!value;
+        streak = 0;
+      },
       /** @returns {'open'|'close'|null} */
       update(score) {
         if (typeof score !== 'number' || Number.isNaN(score)) return null;

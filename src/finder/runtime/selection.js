@@ -191,6 +191,7 @@
     }
 
     function onSlotClick(slotId) {
+      if (slotId === 'nightlord') return; // detected automatically, nothing to choose
       if (!state.current.activeMapType) return;
       const currentVal = state.current.selectionBySlot[slotId] || 'empty';
       const options = getSlotOptions(slotId, false);
