@@ -17,6 +17,14 @@
     const { state, getMapWrapper, doc, storage, modules, overlayRuntime } = deps;
     const ensureI18N = deps.ensureI18N || (async () => {});
     const dpr = deps.dpr || (() => 1);
+    // the route suggestions follow whatever seed is shown here (looked up lazily; never allowed to break the POIs)
+    const routes = () => {
+      try {
+        return deps.routes ? deps.routes() : null;
+      } catch (error) {
+        return null;
+      }
+    };
 
     let canvas = null;
     let ctx = null;
@@ -110,6 +118,7 @@
         }
         if (mine !== token) return;
         current = { seedData };
+        if (routes()) routes().setSeed(seedData);
       } catch (error) {
         console.error('[finder] could not prepare POIs', error);
         current = null;
@@ -121,6 +130,7 @@
     function clear() {
       token++;
       current = null;
+      if (routes()) routes().clear();
       if (ensureCanvas()) wipe();
     }
 
@@ -148,6 +158,7 @@
             modules: window.OverlayModules,
             overlayRuntime: window.OverlayRuntime,
             dpr: () => window.devicePixelRatio || 1,
+            routes: () => runtime.routeViewInstance,
             ensureI18N: async () => {
               const init = window.OverlayI18N?.init;
               if (typeof init !== 'function') return;

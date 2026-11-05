@@ -140,6 +140,11 @@
     function recalcMapLayout() {
       mapView.recalcMapLayout();
       if (poi()) poi().layout();
+      try {
+        if (runtime.routeViewInstance) runtime.routeViewInstance.layout();
+      } catch (error) {
+        /* route suggestions are optional */
+      }
     }
 
     function showSingleSeedOverlay() {

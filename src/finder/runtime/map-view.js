@@ -156,7 +156,12 @@
 
     function recalcMapLayout() {
       const availableHeight = window.innerHeight - 64;
-      const clamped = Math.min(Math.max(availableHeight, config.MAP_MIN_SIZE), config.MAP_MAX_SIZE);
+      // With the route panel open the map must also fit the width that is left beside the controls and the panel.
+      const panel = document.getElementById('routePanel');
+      const panelWidth = panel && !panel.hidden ? panel.offsetWidth : 0;
+      const controls = document.getElementById('controls');
+      const room = panelWidth ? window.innerWidth - (controls ? controls.offsetWidth : 255) - panelWidth - 40 : Infinity;
+      const clamped = Math.min(Math.max(Math.min(availableHeight, room), config.MAP_MIN_SIZE), config.MAP_MAX_SIZE);
       const iconSize = clamped * config.ICON_SCALE_RATIO;
       state.setSizes(clamped, iconSize);
       if (dom.mapWrapper) {

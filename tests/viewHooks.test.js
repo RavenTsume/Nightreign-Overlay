@@ -4,10 +4,12 @@
 const assert = require('assert');
 
 const calls = [];
+const routeCalls = [];
+const routesSpy = { layout: () => routeCalls.push('layout') };
 const poi = { show: p => calls.push(['show', p.seed_id]), clear: () => calls.push(['clear']), layout: () => calls.push(['layout']) };
 const noop = () => {};
 const mapViewStub = new Proxy({}, { get: () => noop });
-global.window = { SeedfinderRuntime: { createMapView: () => mapViewStub, poiViewInstance: poi }, app: { seed: { sendSelected: p => calls.push(['sent', p.seed_id]) }, overlay: { reset: () => calls.push(['overlay-reset']) } } };
+global.window = { SeedfinderRuntime: { createMapView: () => mapViewStub, poiViewInstance: poi, routeViewInstance: routesSpy }, app: { seed: { sendSelected: p => calls.push(['sent', p.seed_id]) }, overlay: { reset: () => calls.push(['overlay-reset']) } } };
 require('../src/finder/runtime/view.js');
 
 const seed = { seed_id: '042' };
@@ -47,6 +49,13 @@ test('resetActiveMap clears the finder POIs', () => {
 test('resizing the window redraws the POIs at the new map size', () => {
   view.recalcMapLayout();
   assert.deepStrictEqual(calls, [['layout']]);
+});
+test('resizing also redraws the route layer; a broken route view is ignored', () => {
+  routeCalls.length = 0; view.recalcMapLayout();
+  assert.deepStrictEqual(routeCalls, ['layout']);
+  Object.defineProperty(window.SeedfinderRuntime, 'routeViewInstance', { configurable: true, get() { throw new Error('no routes'); } });
+  view.recalcMapLayout(); // must not throw
+  Object.defineProperty(window.SeedfinderRuntime, 'routeViewInstance', { configurable: true, value: routesSpy, writable: true });
 });
 test('a missing / broken POI view never breaks the finder', () => {
   Object.defineProperty(window.SeedfinderRuntime, 'poiViewInstance', { configurable: true, get() { throw new Error('no overlay modules'); } });

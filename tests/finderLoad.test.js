@@ -19,10 +19,19 @@ const ctx2d = new Proxy({ measureText: s => ({ width: String(s).length * 6 }) },
 });
 const wrapper = { children: [], appendChild(c) { this.children.push(c); } };
 const dom = { mapWrapper: wrapper };
+const wrap = { tag: 'div', children: [], appendChild(c) { this.children.push(c); return c; } };
+const mkEl = tag => {
+  const e = { tag, style: {}, children: [], listeners: {}, className: '', textContent: '', hidden: false, width: 0, height: 0 };
+  e.appendChild = c => { e.children.push(c); return c; };
+  e.replaceChildren = () => { e.children.length = 0; };
+  e.addEventListener = (type, fn) => { e.listeners[type] = fn; };
+  e.getContext = () => ctx2d;
+  return e;
+};
 const fakeDocument = {
   readyState: 'loading', // init code waits for DOMContentLoaded, which never fires: we only want the scripts' definitions
-  addEventListener() {}, getElementById: id => dom[id] || null, querySelector: () => null, querySelectorAll: () => [],
-  createElement: tag => ({ tag, style: {}, children: [], appendChild() {}, addEventListener() {}, getContext: () => ctx2d, width: 0, height: 0 }),
+  addEventListener() {}, getElementById: id => dom[id] || null, querySelector: sel => (sel === '.wrap' ? wrap : null), querySelectorAll: () => [],
+  createElement: mkEl,
   createTextNode: text => ({ text }), body: { appendChild() {} }, documentElement: { lang: 'en' },
 };
 const sandbox = {
@@ -74,8 +83,24 @@ const test = async (name, fn) => { await fn(); passed++; console.log('  ok  -', 
     assert.ok(boxes >= 5 && circles === boxes * 3, `labels ${boxes}, circles ${circles}`);
   });
 
+  await test('the real route view (through the real getters) plans routes for the shown seed and adds its panel', async () => {
+    const view = sandbox.SeedfinderRuntime.routeViewInstance;
+    assert.ok(view && typeof view.setSeed === 'function' && sandbox.Seedfinder.routing.planRoutesAsync);
+    for (let i = 0; i < 100 && !view.result; i++) await new Promise(r => setTimeout(r, 100));   // planning runs in small steps
+    assert.ok(view.result && view.result.plans.length >= 2, 'routes were planned after the POI view showed the seed');
+    const panel = wrap.children.find(c => c.id === 'routePanel');
+    assert.ok(panel && panel.hidden === false, 'the panel was added to the page and is visible');
+    assert.ok(ops.some(o => o.op === 'arc'), 'something was drawn');
+    sandbox.SeedfinderRuntime.poiViewInstance.clear();
+    assert.strictEqual(view.result, null); assert.strictEqual(panel.hidden, true);
+  });
+
   await test('changing an option in the finder redraws the POIs: the event the option inputs fire reaches the view', async () => {
-    assert.strictEqual((listeners['overlay-prefs-changed'] || []).length, 1, 'the view subscribed once');
+    assert.strictEqual((listeners['overlay-prefs-changed'] || []).length, 2, 'the POI view and the route view each subscribed once');
+    store.finder_showRoutes = 'false'; // keep the route view out of this test: it draws on the same fake canvas
+    store.finder_showRoutes = 'false';
+    const seed0 = JSON.parse(fs.readFileSync(path.join(root, 'public/assets/data/seed_data.json'), 'utf-8')).find(s => s.seed_id === '085');
+    await sandbox.SeedfinderRuntime.poiViewInstance.show({ nightlord: seed0.nightlord, seed_id: seed0.seed_id, seed: seed0 });
     const before = ops.filter(o => o.op === 'fillRect').length;
     store.overlay_showEvergaol = 'false'; store.overlay_showFieldBoss = 'false';
     ops.length = 0;

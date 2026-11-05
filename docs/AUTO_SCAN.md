@@ -24,6 +24,38 @@ Original overlay and seed data: shahf215/Nightreign-Overlay (see CREDITS.md).
 If a scan fails, click **Scan files**: the last 10 scans are saved there (`panel-1.png`, `panel-2.png`,
 `result.json`) so you can see what the app saw.
 
+## Route suggestions
+
+Once a seed is shown, the finder suggests **up to three boss routes** for Day 1 and Day 2 that collect enough runes
+for level 15 (or the goal you pick). They appear as small maps on the right; click one to draw it on the big map
+(numbered stops per day, blue = Day 1, orange = Day 2, S = spawn, N1/N2 = the night boss arenas).
+
+* **Fastest to level 15** (if it can be reached), **Most runes**, **Lowest risk**. When one plan is the best by two
+  measures the labels are merged; a plan that is only "similar" is shown as an *alternative* and labelled so.
+* If level 15 cannot be reached from bosses alone, the panel says so and shows how far each plan falls short.
+  Level 15 needs 513,116 runes in total; plans count as reaching it when normal enemies only have to add up to
+  20,000. Your Day 1 goal (level 10) is preferred when ranking.
+* **Settings** (saved): *Pace* (relaxed / team / fast), *Goal* level, *Solo* (+50% runes), and *Night invasion on
+  Day 1 / Day 2*. An invasion (about one expedition in five) adds the invader's 12,000 runes and about 3.5 minutes
+  of fighting; they come to you, so there is no travel. Tick it when an invader shows up and the routes re-plan.
+* Switch the panel off with Overlay Options > "Show route suggestions beside the map".
+
+What is real and what is assumed (also written under the panel):
+
+| Real | Assumed (adjustable in `src/core/routePlanner.js` `DEFAULTS`) |
+|---|---|
+| boss positions, spawn point, night arenas (from the seed); rune values (`nightreign_rune_drops.json`, wiki data from June 2025); level costs; 14-minute days with the circle closing from 4:30 | travel speed (crossing the map takes 2.2 min), fight time per boss (0.5 min + 0.06 min per 1,000 runes, times the pace), the size of the closing circles (centred on the night arena), Day 2 starting at the spawn point |
+
+So the minutes are estimates. If your own fights are faster or slower, change the pace. Bosses with no published
+value use an estimate and are marked with ≈. Not modelled: the extra night boss some seeds have, the evergaol
+"Rune of the Strong" bonus, runes from ordinary enemies beyond the 20,000 tolerance, and routes in the in-game overlay.
+
+How it works: for each day a beam search over (bosses visited, position, time) finds good routes under the day's
+time and circle limits, in several modes (most runes, efficient, quick, lowest risk). The best Day 1 routes, including
+ones that deliberately avoid the best route's area, are combined with the best Day 2 routes over the bosses that are
+left. On small problems it finds the same optimum as brute force (tested), and on real seeds it stays within about 2%
+of a ten times slower search. It runs in small steps so the window never freezes.
+
 ## The finder window
 
 * **One monitor:** a normal window, as before.
@@ -61,6 +93,8 @@ Scan map -> game running? -> focus window -> wait for the map -> 2 screenshots
 | `src/core/png.js` | PNG writer used in the worker thread for the debug screenshots |
 | `src/overlay/runtime/renderer.js` | draws the labels and the POI circles |
 | `src/finder/runtime/autodetect.js` | the Scan panel in the finder window (Scan, Forget map, results) |
+| `src/core/routePlanner.js` | the route planner (pure logic; see "Route suggestions") |
+| `src/finder/runtime/route-view.js` | the route panel, the mini maps and the route on the big map |
 | `src/finder/runtime/poi-view.js` | draws the POIs on the finder map using the overlay's own modules |
 | `src/finder/runtime/window-controls.js` | minimise / close buttons for the borderless finder |
 | `src/core/finderPlacement.js` | decides normal window vs. borderless on the second monitor |

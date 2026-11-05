@@ -34,6 +34,7 @@
       overlay_offsetY: '0',
       overlay_scale: '1',
       finder_showPois: 'true',
+      finder_showRoutes: 'true',
     };
 
     const mapping = {
@@ -68,6 +69,7 @@
       optOffsetY: 'overlay_offsetY',
       optScale: 'overlay_scale',
       optFinderPois: 'finder_showPois',
+      optFinderRoutes: 'finder_showRoutes',
     };
 
     const getPref = key => {

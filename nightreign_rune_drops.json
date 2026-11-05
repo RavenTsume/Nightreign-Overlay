@@ -1,0 +1,1618 @@
+{
+  "meta": {
+    "game": "Elden Ring: Nightreign",
+    "description": "Runes dropped per boss and context, compiled for route planning.",
+    "compiled": "2026-10-28",
+    "sources": [
+      {
+        "name": "EIP Gaming - Field Bosses",
+        "url": "https://eip.gg/nightreign/guides/field-bosses/",
+        "pageUpdated": "2025-06"
+      },
+      {
+        "name": "EIP Gaming - Location Bosses (castle, ruins, encampments, forts, great churches)",
+        "url": "https://eip.gg/nightreign/guides/location-bosses/",
+        "pageUpdated": "2025-06"
+      },
+      {
+        "name": "EIP Gaming - Night Bosses",
+        "url": "https://eip.gg/nightreign/guides/night-bosses/",
+        "pageUpdated": "2025-06"
+      },
+      {
+        "name": "EIP Gaming - Evergaol Bosses",
+        "url": "https://eip.gg/nightreign/guides/evergaol-bosses/",
+        "pageUpdated": "2025-06"
+      },
+      {
+        "name": "EIP Gaming - Shifting Earth Bosses",
+        "url": "https://eip.gg/nightreign/guides/shifting-earth-bosses/",
+        "pageUpdated": "2025-06"
+      },
+      {
+        "name": "Shacknews and Elden Ring Fandom wiki - level rune costs",
+        "url": "https://www.shacknews.com/article/144459/max-level-rune-requirements-elden-ring-nightreign",
+        "pageUpdated": null
+      },
+      {
+        "name": "Game8 - rune drop samples (cross-check)",
+        "url": "https://game8.co/games/Elden-Ring-Nightreign/archives/522702",
+        "pageUpdated": null
+      }
+    ],
+    "notes": [
+      "Values are the boss itself only. Enemies around a location boss add more runes on top.",
+      "The EIP pages were last updated in June 2025, before the Deep of the Night update and later patches, so values may have changed.",
+      "Party size matters: the source states solo play gives +50% runes from every enemy. Game8 samples were taken at 3-player scaling and differ from EIP by up to about 10%.",
+      "Evergaol bosses also offer a choice between an upgrade and a Rune of the Strong (10,000 or 20,000 runes). That bonus is NOT included in the evergaol values here.",
+      "Multi-boss fights are listed as one entry with the total; the breakdown field shows the parts (runes x count) when the source gives them.",
+      "Entries with runes = null are listed as unknown in the source.",
+      "Two breakdowns in the source do not add up to its stated total (ruins.albinauric-archers, evergaol.beastly-brigade). The stated total is kept and breakdownSum shows what the parts add up to.",
+      "Effort ratings, expeditions and dormant-power rewards are not included."
+    ]
+  },
+  "deepOfNight": {
+    "known": false,
+    "summary": "Red variants appear in Deep of the Night (including some field and location mini-bosses) and are reported to give more runes than normal. No per-boss values were found.",
+    "unverified": "One small guide claims red regular enemies give double runes. Not confirmed by other sources.",
+    "redVariantFactor": null,
+    "plannerAdvice": "Make this a user setting (default 1.0) instead of assuming a number."
+  },
+  "levels": {
+    "maxLevel": 15,
+    "costToReach": {
+      "2": 3698,
+      "3": 7922,
+      "4": 12348,
+      "5": 16978,
+      "6": 21818,
+      "7": 26869,
+      "8": 32137,
+      "9": 37624,
+      "10": 43335,
+      "11": 49271,
+      "12": 55439,
+      "13": 61840,
+      "14": 68479,
+      "15": 75358
+    },
+    "cumulativeFromLevel1": {
+      "1": 0,
+      "2": 3698,
+      "3": 11620,
+      "4": 23968,
+      "5": 40946,
+      "6": 62764,
+      "7": 89633,
+      "8": 121770,
+      "9": 159394,
+      "10": 202729,
+      "11": 252000,
+      "12": 307439,
+      "13": 369279,
+      "14": 437758,
+      "15": 513116
+    },
+    "note": "Per-level costs from Shacknews and the Fandom wiki, which agree with each other. Other sites list slightly different totals (about 513,336 to 551,253)."
+  },
+  "crossCheck": [
+    {
+      "what": "Castle Ancient Hero of Zamor",
+      "eip": 25000,
+      "game8": 27500
+    },
+    {
+      "what": "Night 2 Fell Omen",
+      "eip": 48000,
+      "game8": 52800
+    }
+  ],
+  "contexts": {
+    "field": "Field boss (open world mini-boss)",
+    "castle": "Castle interior boss",
+    "ruins": "Ruins location boss",
+    "encampment": "Main Encampment location boss",
+    "fort": "Fort location boss",
+    "great_church": "Great Church location boss",
+    "evergaol": "Evergaol boss",
+    "night1": "Night boss, Day 1",
+    "night2": "Night boss, Day 2",
+    "crater": "Shifting Earth: Crater",
+    "mountaintop": "Shifting Earth: Mountaintop",
+    "rotted_woods": "Shifting Earth: Rotted Woods",
+    "noklateo": "Shifting Earth: Noklateo"
+  },
+  "entries": [
+    {
+      "id": "field.ancestor-spirit",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Ancestor Spirit",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.ancient-hero-of-zamor",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Ancient Hero of Zamor",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.bell-bearing-hunter",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Bell Bearing Hunter",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.black-knife-assassin",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Black Knife Assassin",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.death-rite-bird",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Death Rite Bird",
+      "runes": 45000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.demi-human-queen",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Demi-Human Queen",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.draconic-tree-sentinel",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Draconic Tree Sentinel",
+      "runes": 45000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.elder-lion",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Elder Lion",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.erdtree-avatar",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Erdtree Avatar",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.flying-dragon",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Flying Dragon",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.flying-dragon-of-the-hills",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Flying Dragon of the Hills",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.golden-hippopotamus",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Golden Hippopotamus",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.leonine-misbegotten",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Leonine Misbegotten",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.nights-cavalry",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Night's Cavalry",
+      "runes": 14600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.red-wolf-of-the-king-consort",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Red Wolf of the King Consort",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.royal-carian-knight",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Royal Carian Knight",
+      "runes": 45000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.royal-revenant",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Royal Revenant",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.tree-sentinel",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Tree Sentinel",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.ulcerated-tree-spirit",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Ulcerated Tree Spirit",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "field.miranda-blossom",
+      "context": "field",
+      "label": "Field boss (open world mini-boss)",
+      "boss": "Miranda Blossom",
+      "runes": 15800,
+      "breakdown": [
+        {
+          "runes": 11000,
+          "count": 1
+        },
+        {
+          "runes": 400,
+          "count": 12
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "castle.ancient-hero-of-zamor",
+      "context": "castle",
+      "label": "Castle interior boss",
+      "boss": "Ancient Hero of Zamor",
+      "runes": 25000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "castle.bell-bearing-hunter",
+      "context": "castle",
+      "label": "Castle interior boss",
+      "boss": "Bell Bearing Hunter",
+      "runes": 60000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "castle.black-knife-assassin",
+      "context": "castle",
+      "label": "Castle interior boss",
+      "boss": "Black Knife Assassin",
+      "runes": 25000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "castle.grafted-scion",
+      "context": "castle",
+      "label": "Castle interior boss",
+      "boss": "Grafted Scion",
+      "runes": 22500,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "castle.leonine-misbegotten",
+      "context": "castle",
+      "label": "Castle interior boss",
+      "boss": "Leonine Misbegotten",
+      "runes": 25000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "castle.red-wolf-of-the-king-consort",
+      "context": "castle",
+      "label": "Castle interior boss",
+      "boss": "Red Wolf of the King Consort",
+      "runes": 25000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "castle.royal-revenant",
+      "context": "castle",
+      "label": "Castle interior boss",
+      "boss": "Royal Revenant",
+      "runes": 25000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "ruins.albinauric-archers",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Albinauric Archers",
+      "runes": 16800,
+      "breakdown": [
+        {
+          "runes": 3640,
+          "count": 2
+        },
+        {
+          "runes": 2400,
+          "count": 2
+        }
+      ],
+      "note": "The source gives a total of 16,800, but its breakdown adds up to only 12,080. The total is kept as listed.",
+      "breakdownSum": 12080
+    },
+    {
+      "id": "ruins.albinaurics",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Albinaurics",
+      "runes": 9600,
+      "breakdown": [
+        {
+          "runes": 3200,
+          "count": 3
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "ruins.ancient-heroes-of-zamor",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Ancient Heroes of Zamor",
+      "runes": 14400,
+      "breakdown": [
+        {
+          "runes": 4800,
+          "count": 3
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "ruins.battlemages",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Battlemages",
+      "runes": 8400,
+      "breakdown": [
+        {
+          "runes": 4200,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "ruins.beastmen-of-farum-azula",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Beastmen of Farum Azula",
+      "runes": 9600,
+      "breakdown": [
+        {
+          "runes": 4800,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "ruins.depraved-perfumer",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Depraved Perfumer",
+      "runes": 4000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "ruins.erdtree-burial-watchdogs",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Erdtree Burial Watchdogs",
+      "runes": 10400,
+      "breakdown": [
+        {
+          "runes": 5200,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "ruins.perfumer",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Perfumer",
+      "runes": 4000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "ruins.runebear",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Runebear",
+      "runes": 10800,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "ruins.sanguine-noble",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Sanguine Noble",
+      "runes": 6400,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "ruins.wormface",
+      "context": "ruins",
+      "label": "Ruins location boss",
+      "boss": "Wormface",
+      "runes": 10800,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "encampment.banished-knights",
+      "context": "encampment",
+      "label": "Main Encampment location boss",
+      "boss": "Banished Knights",
+      "runes": 8800,
+      "breakdown": [
+        {
+          "runes": 4400,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "encampment.elder-lion",
+      "context": "encampment",
+      "label": "Main Encampment location boss",
+      "boss": "Elder Lion",
+      "runes": 8000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "encampment.flame-chariots",
+      "context": "encampment",
+      "label": "Main Encampment location boss",
+      "boss": "Flame Chariots",
+      "runes": 14400,
+      "breakdown": [
+        {
+          "runes": 4800,
+          "count": 3
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "encampment.frenzied-flame-troll",
+      "context": "encampment",
+      "label": "Main Encampment location boss",
+      "boss": "Frenzied Flame Troll",
+      "runes": 8800,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "encampment.redmane-knights",
+      "context": "encampment",
+      "label": "Main Encampment location boss",
+      "boss": "Redmane Knights",
+      "runes": 7200,
+      "breakdown": [
+        {
+          "runes": 3600,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "encampment.royal-army-knights",
+      "context": "encampment",
+      "label": "Main Encampment location boss",
+      "boss": "Royal Army Knights",
+      "runes": 10800,
+      "breakdown": [
+        {
+          "runes": 3600,
+          "count": 3
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "fort.abducator-virgin",
+      "context": "fort",
+      "label": "Fort location boss",
+      "boss": "Abducator Virgin",
+      "runes": 4800,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "fort.crystalians",
+      "context": "fort",
+      "label": "Fort location boss",
+      "boss": "Crystalians",
+      "runes": 5600,
+      "breakdown": [
+        {
+          "runes": 3200,
+          "count": 1
+        },
+        {
+          "runes": 2400,
+          "count": 1
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "fort.guardian-golem",
+      "context": "fort",
+      "label": "Fort location boss",
+      "boss": "Guardian Golem",
+      "runes": 3600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "fort.lordsworn-captain",
+      "context": "fort",
+      "label": "Fort location boss",
+      "boss": "Lordsworn Captain",
+      "runes": 3600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "great_church.fire-monk",
+      "context": "great_church",
+      "label": "Great Church location boss",
+      "boss": "Fire Monk",
+      "runes": 3200,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "great_church.guardian-golem",
+      "context": "great_church",
+      "label": "Great Church location boss",
+      "boss": "Guardian Golem",
+      "runes": 3600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "great_church.mausoleum-knight",
+      "context": "great_church",
+      "label": "Great Church location boss",
+      "boss": "Mausoleum Knight",
+      "runes": 3600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "great_church.oracle-envoys",
+      "context": "great_church",
+      "label": "Great Church location boss",
+      "boss": "Oracle Envoys",
+      "runes": 5760,
+      "breakdown": [
+        {
+          "runes": 1440,
+          "count": 4
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "evergaol.ancient-dragon",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Ancient Dragon",
+      "runes": 45000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "evergaol.banished-knights",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Banished Knights",
+      "runes": 15000,
+      "breakdown": [
+        {
+          "runes": 5000,
+          "count": 3
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "evergaol.beastly-brigade",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Beastly Brigade",
+      "runes": 10080,
+      "breakdown": [
+        {
+          "runes": 1960,
+          "count": 3
+        },
+        {
+          "runes": 1000,
+          "count": 3
+        },
+        {
+          "runes": 1120,
+          "count": 1
+        }
+      ],
+      "note": "The source gives a total of 10,080, but its breakdown adds up to 10,000. The total is kept as listed.",
+      "breakdownSum": 10000
+    },
+    {
+      "id": "evergaol.beastmen-of-farum-azula",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Beastmen of Farum Azula",
+      "runes": 10080,
+      "breakdown": [
+        {
+          "runes": 1440,
+          "count": 3
+        },
+        {
+          "runes": 1920,
+          "count": 3
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "evergaol.bloodhound-knight",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Bloodhound Knight",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "evergaol.crucible-knight",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Crucible Knight",
+      "runes": 20000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "evergaol.crystalians",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Crystalians",
+      "runes": 15000,
+      "breakdown": [
+        {
+          "runes": 5000,
+          "count": 3
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "evergaol.dragonkin-soldier",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Dragonkin Soldier",
+      "runes": 20000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "evergaol.godskin-apostle",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Godskin Apostle",
+      "runes": 20000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "evergaol.godskin-noble",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Godskin Noble",
+      "runes": 20000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "evergaol.godskin-noble-apostle",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Godskin Noble & Apostle",
+      "runes": 40000,
+      "breakdown": [
+        {
+          "runes": 20000,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "evergaol.grave-warden-duelist",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Grave Warden Duelist",
+      "runes": 10000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "evergaol.nox-warriors",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Nox Warriors",
+      "runes": 14960,
+      "breakdown": [
+        {
+          "runes": 7480,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "evergaol.omen",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Omen",
+      "runes": 10000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "evergaol.stoneskin-lords",
+      "context": "evergaol",
+      "label": "Evergaol boss",
+      "boss": "Stoneskin Lords",
+      "runes": 14960,
+      "breakdown": [
+        {
+          "runes": 7480,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "night1.battlefield-commander",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Battlefield Commander",
+      "runes": 24000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.bell-bearing-hunter",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Bell Bearing Hunter",
+      "runes": 24000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.centipede-demon",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Centipede Demon",
+      "runes": 25600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.dukes-dear-freja",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Duke's Dear Freja",
+      "runes": 26496,
+      "breakdown": null,
+      "note": "Shown differently (italic) in the source, which may mean an estimate."
+    },
+    {
+      "id": "night1.demi-human-queen-swordmaster",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Demi-Human Queen & Swordmaster",
+      "runes": 24400,
+      "breakdown": [
+        {
+          "runes": 10400,
+          "count": 1
+        },
+        {
+          "runes": 14000,
+          "count": 1
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "night1.gaping-dragon",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Gaping Dragon",
+      "runes": 25600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.grafted-monarch",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Grafted Monarch",
+      "runes": 24000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.nights-cavalry",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Night's Cavalry",
+      "runes": null,
+      "breakdown": null,
+      "note": "Value listed as unknown in the source."
+    },
+    {
+      "id": "night1.royal-revenant",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Royal Revenant",
+      "runes": 24000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.smelter-demon",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Smelter Demon",
+      "runes": 25600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.tibia-mariner-those-who-live-in-death",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Tibia Mariner & Those Who Live in Death",
+      "runes": 28000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.ulcerated-tree-spirit",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Ulcerated Tree Spirit",
+      "runes": 20000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.valiant-gargoyle",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Valiant Gargoyle",
+      "runes": 25600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night1.wormface",
+      "context": "night1",
+      "label": "Night boss, Day 1",
+      "boss": "Wormface",
+      "runes": 25600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night2.ancient-dragon",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Ancient Dragon",
+      "runes": 44000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night2.crucible-knight-golden-hippopotamus",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Crucible Knight & Golden Hippopotamus",
+      "runes": 40000,
+      "breakdown": [
+        {
+          "runes": 24000,
+          "count": 1
+        },
+        {
+          "runes": 16000,
+          "count": 1
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "night2.dancer-of-the-boreal-valley",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Dancer of the Boreal Valley",
+      "runes": 42000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night2.death-rite-bird",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Death Rite Bird",
+      "runes": 44000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night2.draconic-tree-sentinel-royal-cavalrymen",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Draconic Tree Sentinel & Royal Cavalrymen",
+      "runes": 45200,
+      "breakdown": [
+        {
+          "runes": 38000,
+          "count": 1
+        },
+        {
+          "runes": 3600,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "night2.fell-omen",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Fell Omen",
+      "runes": 48000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night2.full-grown-fallingstar-beast",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Full-Grown Fallingstar Beast",
+      "runes": 46000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night2.godskin-noble-apostle",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Godskin Noble & Apostle",
+      "runes": 44000,
+      "breakdown": [
+        {
+          "runes": 22000,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "night2.great-wyrm",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Great Wyrm",
+      "runes": 42000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night2.nameless-king",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Nameless King",
+      "runes": 59799,
+      "breakdown": null,
+      "note": "Shown differently (italic) in the source, which may mean an estimate."
+    },
+    {
+      "id": "night2.nox-dragonkin-soldier",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Nox Dragonkin Soldier",
+      "runes": 42000,
+      "breakdown": null,
+      "note": "Shown differently (italic) in the source, which may mean an estimate."
+    },
+    {
+      "id": "night2.outland-commander",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Outland Commander",
+      "runes": 44000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "night2.tree-sentinel-royal-cavalrymen",
+      "context": "night2",
+      "label": "Night boss, Day 2",
+      "boss": "Tree Sentinel & Royal Cavalrymen",
+      "runes": 45200,
+      "breakdown": [
+        {
+          "runes": 38000,
+          "count": 1
+        },
+        {
+          "runes": 3600,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "crater.demi-human-queen",
+      "context": "crater",
+      "label": "Shifting Earth: Crater",
+      "boss": "Demi-Human Queen",
+      "runes": 15000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "crater.fallingstar-beast",
+      "context": "crater",
+      "label": "Shifting Earth: Crater",
+      "boss": "Fallingstar Beast",
+      "runes": 50000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "crater.fire-prelates",
+      "context": "crater",
+      "label": "Shifting Earth: Crater",
+      "boss": "Fire Prelates",
+      "runes": 23600,
+      "breakdown": [
+        {
+          "runes": 14000,
+          "count": 1
+        },
+        {
+          "runes": 4800,
+          "count": 2
+        }
+      ],
+      "note": null
+    },
+    {
+      "id": "crater.magma-wyrm",
+      "context": "crater",
+      "label": "Shifting Earth: Crater",
+      "boss": "Magma Wyrm",
+      "runes": 45000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "crater.valiant-gargoyle",
+      "context": "crater",
+      "label": "Shifting Earth: Crater",
+      "boss": "Valiant Gargoyle",
+      "runes": 45000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "mountaintop.demi-human-swordmaster",
+      "context": "mountaintop",
+      "label": "Shifting Earth: Mountaintop",
+      "boss": "Demi-Human Swordmaster",
+      "runes": 18000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "mountaintop.flying-dragon",
+      "context": "mountaintop",
+      "label": "Shifting Earth: Mountaintop",
+      "boss": "Flying Dragon",
+      "runes": 18000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "mountaintop.mountaintop-ice-dragon",
+      "context": "mountaintop",
+      "label": "Shifting Earth: Mountaintop",
+      "boss": "Mountaintop Ice Dragon",
+      "runes": 104500,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "mountaintop.snowfield-trolls",
+      "context": "mountaintop",
+      "label": "Shifting Earth: Mountaintop",
+      "boss": "Snowfield Trolls",
+      "runes": 18000,
+      "breakdown": [
+        {
+          "runes": 9000,
+          "count": 2
+        }
+      ],
+      "note": "Shown differently (italic) in the source, which may mean an estimate."
+    },
+    {
+      "id": "rotted_woods.ancestor-spirit",
+      "context": "rotted_woods",
+      "label": "Shifting Earth: Rotted Woods",
+      "boss": "Ancestor Spirit",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "rotted_woods.bell-bearing-hunter",
+      "context": "rotted_woods",
+      "label": "Shifting Earth: Rotted Woods",
+      "boss": "Bell Bearing Hunter",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "rotted_woods.black-blade-kindred",
+      "context": "rotted_woods",
+      "label": "Shifting Earth: Rotted Woods",
+      "boss": "Black Blade Kindred",
+      "runes": 45000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "rotted_woods.erdtree-avatar",
+      "context": "rotted_woods",
+      "label": "Shifting Earth: Rotted Woods",
+      "boss": "Erdtree Avatar",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "rotted_woods.lordsworn-captain",
+      "context": "rotted_woods",
+      "label": "Shifting Earth: Rotted Woods",
+      "boss": "Lordsworn Captain",
+      "runes": 3600,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "rotted_woods.royal-carian-knight",
+      "context": "rotted_woods",
+      "label": "Shifting Earth: Rotted Woods",
+      "boss": "Royal Carian Knight",
+      "runes": 45000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "rotted_woods.ulcerated-tree-spirit",
+      "context": "rotted_woods",
+      "label": "Shifting Earth: Rotted Woods",
+      "boss": "Ulcerated Tree Spirit",
+      "runes": 30000,
+      "breakdown": null,
+      "note": null
+    },
+    {
+      "id": "noklateo.black-knife-assassin",
+      "context": "noklateo",
+      "label": "Shifting Earth: Noklateo",
+      "boss": "Black Knife Assassin",
+      "runes": null,
+      "breakdown": null,
+      "note": "Value listed as unknown in the source."
+    },
+    {
+      "id": "noklateo.dragonkin-soldier",
+      "context": "noklateo",
+      "label": "Shifting Earth: Noklateo",
+      "boss": "Dragonkin Soldier",
+      "runes": null,
+      "breakdown": null,
+      "note": "Value listed as unknown in the source."
+    },
+    {
+      "id": "noklateo.headless-troll",
+      "context": "noklateo",
+      "label": "Shifting Earth: Noklateo",
+      "boss": "Headless Troll",
+      "runes": null,
+      "breakdown": null,
+      "note": "Value listed as unknown in the source."
+    },
+    {
+      "id": "noklateo.naturalborn-of-the-void",
+      "context": "noklateo",
+      "label": "Shifting Earth: Noklateo",
+      "boss": "Naturalborn of the Void",
+      "runes": null,
+      "breakdown": null,
+      "note": "Value listed as unknown in the source."
+    }
+  ],
+  "byBoss": {
+    "Ancestor Spirit": {
+      "field": 30000,
+      "rotted_woods": 30000
+    },
+    "Ancient Hero of Zamor": {
+      "field": 15000,
+      "castle": 25000
+    },
+    "Bell Bearing Hunter": {
+      "field": 30000,
+      "castle": 60000,
+      "night1": 24000,
+      "rotted_woods": 30000
+    },
+    "Black Knife Assassin": {
+      "field": 15000,
+      "castle": 25000,
+      "noklateo": null
+    },
+    "Death Rite Bird": {
+      "field": 45000,
+      "night2": 44000
+    },
+    "Demi-Human Queen": {
+      "field": 15000,
+      "crater": 15000
+    },
+    "Draconic Tree Sentinel": {
+      "field": 45000
+    },
+    "Elder Lion": {
+      "field": 15000,
+      "encampment": 8000
+    },
+    "Erdtree Avatar": {
+      "field": 30000,
+      "rotted_woods": 30000
+    },
+    "Flying Dragon": {
+      "field": 15000,
+      "mountaintop": 18000
+    },
+    "Flying Dragon of the Hills": {
+      "field": 30000
+    },
+    "Golden Hippopotamus": {
+      "field": 15000
+    },
+    "Leonine Misbegotten": {
+      "field": 15000,
+      "castle": 25000
+    },
+    "Night's Cavalry": {
+      "field": 14600,
+      "night1": null
+    },
+    "Red Wolf of the King Consort": {
+      "field": 15000,
+      "castle": 25000
+    },
+    "Royal Carian Knight": {
+      "field": 45000,
+      "rotted_woods": 45000
+    },
+    "Royal Revenant": {
+      "field": 15000,
+      "castle": 25000,
+      "night1": 24000
+    },
+    "Tree Sentinel": {
+      "field": 30000
+    },
+    "Ulcerated Tree Spirit": {
+      "field": 30000,
+      "night1": 20000,
+      "rotted_woods": 30000
+    },
+    "Miranda Blossom": {
+      "field": 15800
+    },
+    "Grafted Scion": {
+      "castle": 22500
+    },
+    "Albinauric Archers": {
+      "ruins": 16800
+    },
+    "Albinaurics": {
+      "ruins": 9600
+    },
+    "Ancient Heroes of Zamor": {
+      "ruins": 14400
+    },
+    "Battlemages": {
+      "ruins": 8400
+    },
+    "Beastmen of Farum Azula": {
+      "ruins": 9600,
+      "evergaol": 10080
+    },
+    "Depraved Perfumer": {
+      "ruins": 4000
+    },
+    "Erdtree Burial Watchdogs": {
+      "ruins": 10400
+    },
+    "Perfumer": {
+      "ruins": 4000
+    },
+    "Runebear": {
+      "ruins": 10800
+    },
+    "Sanguine Noble": {
+      "ruins": 6400
+    },
+    "Wormface": {
+      "ruins": 10800,
+      "night1": 25600
+    },
+    "Banished Knights": {
+      "encampment": 8800,
+      "evergaol": 15000
+    },
+    "Flame Chariots": {
+      "encampment": 14400
+    },
+    "Frenzied Flame Troll": {
+      "encampment": 8800
+    },
+    "Redmane Knights": {
+      "encampment": 7200
+    },
+    "Royal Army Knights": {
+      "encampment": 10800
+    },
+    "Abducator Virgin": {
+      "fort": 4800
+    },
+    "Crystalians": {
+      "fort": 5600,
+      "evergaol": 15000
+    },
+    "Guardian Golem": {
+      "fort": 3600,
+      "great_church": 3600
+    },
+    "Lordsworn Captain": {
+      "fort": 3600,
+      "rotted_woods": 3600
+    },
+    "Fire Monk": {
+      "great_church": 3200
+    },
+    "Mausoleum Knight": {
+      "great_church": 3600
+    },
+    "Oracle Envoys": {
+      "great_church": 5760
+    },
+    "Ancient Dragon": {
+      "evergaol": 45000,
+      "night2": 44000
+    },
+    "Beastly Brigade": {
+      "evergaol": 10080
+    },
+    "Bloodhound Knight": {
+      "evergaol": 15000
+    },
+    "Crucible Knight": {
+      "evergaol": 20000
+    },
+    "Dragonkin Soldier": {
+      "evergaol": 20000,
+      "noklateo": null
+    },
+    "Godskin Apostle": {
+      "evergaol": 20000
+    },
+    "Godskin Noble": {
+      "evergaol": 20000
+    },
+    "Godskin Noble & Apostle": {
+      "evergaol": 40000,
+      "night2": 44000
+    },
+    "Grave Warden Duelist": {
+      "evergaol": 10000
+    },
+    "Nox Warriors": {
+      "evergaol": 14960
+    },
+    "Omen": {
+      "evergaol": 10000
+    },
+    "Stoneskin Lords": {
+      "evergaol": 14960
+    },
+    "Battlefield Commander": {
+      "night1": 24000
+    },
+    "Centipede Demon": {
+      "night1": 25600
+    },
+    "Duke's Dear Freja": {
+      "night1": 26496
+    },
+    "Demi-Human Queen & Swordmaster": {
+      "night1": 24400
+    },
+    "Gaping Dragon": {
+      "night1": 25600
+    },
+    "Grafted Monarch": {
+      "night1": 24000
+    },
+    "Smelter Demon": {
+      "night1": 25600
+    },
+    "Tibia Mariner & Those Who Live in Death": {
+      "night1": 28000
+    },
+    "Valiant Gargoyle": {
+      "night1": 25600,
+      "crater": 45000
+    },
+    "Crucible Knight & Golden Hippopotamus": {
+      "night2": 40000
+    },
+    "Dancer of the Boreal Valley": {
+      "night2": 42000
+    },
+    "Draconic Tree Sentinel & Royal Cavalrymen": {
+      "night2": 45200
+    },
+    "Fell Omen": {
+      "night2": 48000
+    },
+    "Full-Grown Fallingstar Beast": {
+      "night2": 46000
+    },
+    "Great Wyrm": {
+      "night2": 42000
+    },
+    "Nameless King": {
+      "night2": 59799
+    },
+    "Nox Dragonkin Soldier": {
+      "night2": 42000
+    },
+    "Outland Commander": {
+      "night2": 44000
+    },
+    "Tree Sentinel & Royal Cavalrymen": {
+      "night2": 45200
+    },
+    "Fallingstar Beast": {
+      "crater": 50000
+    },
+    "Fire Prelates": {
+      "crater": 23600
+    },
+    "Magma Wyrm": {
+      "crater": 45000
+    },
+    "Demi-Human Swordmaster": {
+      "mountaintop": 18000
+    },
+    "Mountaintop Ice Dragon": {
+      "mountaintop": 104500
+    },
+    "Snowfield Trolls": {
+      "mountaintop": 18000
+    },
+    "Black Blade Kindred": {
+      "rotted_woods": 45000
+    },
+    "Headless Troll": {
+      "noklateo": null
+    },
+    "Naturalborn of the Void": {
+      "noklateo": null
+    }
+  }
+}

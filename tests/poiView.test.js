@@ -39,12 +39,12 @@ function fakeCtx() {
     measureText(s) { return { width: s.length * 6 }; }, fillStyle: '', font: '', textAlign: '',
   };
 }
-function rig({ size = 800, map = 'Default' } = {}) {
+function rig({ size = 800, map = 'Default', routes = null } = {}) {
   const ctx = fakeCtx();
   const canvas = { style: {}, width: 0, height: 0, getContext: () => ctx };
   const wrapper = { children: [], appendChild(c) { this.children.push(c); } };
   const state = { current: { mapPixelSize: size, activeMapType: map } };
-  const view = createPoiView({ state, getMapWrapper: () => wrapper, doc: { createElement: () => canvas }, storage: localStorage, modules, overlayRuntime, dpr: () => 1 });
+  const view = createPoiView({ state, getMapWrapper: () => wrapper, doc: { createElement: () => canvas }, storage: localStorage, modules, overlayRuntime, dpr: () => 1, routes: routes ? () => routes() : undefined });
   return { view, ctx, canvas, wrapper, state };
 }
 const payloadOf = seed => ({ nightlord: seed.nightlord, seed_id: seed.seed_id, seed });
@@ -142,6 +142,18 @@ const reset = () => Object.keys(store).forEach(k => delete store[k]);
     };
     const en = await texts('en'), es = await texts('es');
     assert.ok(en.length > 20 && es.length > 20); assert.notStrictEqual(en, es);
+  });
+
+  await test('the route suggestions are told about every shown seed and about every clear', async () => {
+    const log = [];
+    const r = rig({ routes: () => ({ setSeed: s => log.push(['set', s.seed_id || s.layout_number]), clear: () => log.push(['clear']) }) });
+    await r.view.show(payloadOf(seeds[4])); r.view.clear(); await r.view.show(payloadOf(seeds[9]));
+    assert.deepStrictEqual(log.map(x => x[0]), ['set', 'clear', 'set']);
+  });
+  await test('a missing or broken route view never breaks the POIs', async () => {
+    const r = rig({ routes: () => { throw new Error('no routes'); } });
+    await r.view.show(payloadOf(seeds[4]));
+    assert.ok(boxes(r.ctx).length > 5); r.view.clear();
   });
 
   console.log(`\n${passed} tests passed`);
